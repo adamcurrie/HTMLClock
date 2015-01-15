@@ -6,6 +6,12 @@ h1 {
 	font-size: 20pt;
 }
 
+#forecastIcon img {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
 .myStyle {
 	font-family: Verdana, Geneva, sans-serif;
 	color: #F7F7F7;
@@ -17,4 +23,39 @@ h1 {
 	font-family: "Arial", Gadget, sans-serif;
 	color: white;
 	font-size: 32pt;
+}
+
+/* Style from http://stackoverflow.com/a/8357227*/
+.button {
+  display: block;
+  width: 115px;
+  height: 25px;
+  background: #4E9CAF;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cold {
+	background-color: #95A5A6;
+}
+
+.chilly {
+	background-color: #1ABC9C;
+}
+
+.nice {
+	background-color: #2980B9;
+}
+
+.warm {
+	background-color: #E67E22;
+}
+
+.hot {
+	background-color: #E74C3C;
 }
