@@ -71,7 +71,6 @@ function getTime()
       $("#forecastLabel").html(data.daily.data[0].summary);
       $("#forecastIcon").html("<img src=\"img/" + data.daily.data[0].icon + ".png\">");
       $("body").addClass(getClassForTemp(data.daily.data[0].temperatureMax));
-      console.log(data);
    });
  }
 
