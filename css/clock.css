@@ -59,3 +59,12 @@ h1 {
 .hot {
 	background-color: #E74C3C;
 }
+
+#alarmContainer .name {
+	font-size: 14pt;
+}
+
+.time {
+	margin-left: 20px;
+	font-size: 14pt;
+}
