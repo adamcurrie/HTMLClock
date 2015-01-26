@@ -94,13 +94,19 @@ function hideAlarmPopup()
    $("#popup").addClass("hide");
 }
 
-function insertAlarm(hours, mins, ampm, alarmName)
+function insertAlarm(hours, mins, ampm, alarmName, id)
 {
+   console.log(id);
    var time = hours + ":" + mins + ampm;
-   var blankDiv = $("<div>").addClass("flexable");
+   var blankDiv = $("<div>").addClass("flexable").attr('id', id + "Delete");
+   var deleteDiv = $("<div>").addClass("delete")
+      .html("<a id='"+ id + "' href='#'>Delete</a>")
+   var deleteStr = "$('#" + id + "').click(function() {deleteAlarm('" + id + "');});";
+   deleteDiv.append("<script>" + deleteStr + "</script>");
 
    blankDiv.append($("<div>").addClass("name").html(alarmName))
-   .append($("<div>").addClass("time").html(time));
+   .append($("<div>").addClass("time").html(time))
+   .append(deleteDiv);
    $("#alarms").append(blankDiv);
 }
 
@@ -145,10 +151,33 @@ function addAlarm()
     var alarmObject = new AlarmObject();
       alarmObject.save({"time": time,"alarmName": alarmName}, {
       success: function(object) {
-        insertAlarm(hours, mins, ampm, alarmName);
+        if(!$('#alarms').is(':empty')) 
+        {
+          $('#alarms').empty();
+        }
+        insertAlarm(hours, mins, ampm, alarmName, object.id);
         hideAlarmPopup();
       }
     });
+}
+
+function deleteAlarm (id) {
+   var AlarmObject = Parse.Object.extend("Alarm");
+   var query = new Parse.Query(AlarmObject);
+   query.get(id, {
+     success: function(myObj) {
+       myObj.destroy({});
+       $("#" + id + "Delete").remove();
+       if($('#alarms').is(':empty')) 
+       {
+          $('#alarms').html("No Alarms Set");
+       }
+     },
+     error: function(object, error) {
+
+     }
+   });
+   
 }
 
 function getAllAlarms()
@@ -158,9 +187,14 @@ function getAllAlarms()
    var query = new Parse.Query(AlarmObject);
    query.find({
       success: function(results) {
-         for (var i = 0; i < results.length; i++) {
+         for (var i = 0; i < results.length; i++) 
+         {
             var data = convertTimeToParams(results[i].attributes.time);
-            insertAlarm(data.hours, data.mins, data.ampm, results[i].attributes.alarmName);
+            insertAlarm(data.hours, data.mins, data.ampm, results[i].attributes.alarmName, results[i].id);
+         }
+         if (results.length == 0)
+         {
+            $('#alarms').html("No Alarms Set");
          }
       }
    });

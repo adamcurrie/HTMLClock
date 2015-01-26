@@ -68,3 +68,7 @@ h1 {
 	margin-left: 20px;
 	font-size: 14pt;
 }
+
+.delete {
+	margin-left: auto;
+}
