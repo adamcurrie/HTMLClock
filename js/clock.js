@@ -66,13 +66,11 @@ function getTempLocation(latitude, longitude)
    var position = latitude + "," + longitude;
    var callbackParam = "?callback=?";
    var url = forecastLink + apiKey + "/" + position + callbackParam;
-   /*
    $.getJSON(url, function(data) {
-      $("#forecastLabel").html(data.daily.data[0].summary);
-      $("#forecastIcon").html("<img src=\"img/" + data.daily.data[0].icon + ".png\">");
+      $("#forecastLabel").html(data.daily.summary);
+      $("#forecastIcon").html("<img src=\"img/" + data.daily.icon + ".png\">");
       $("body").addClass(getClassForTemp(data.daily.data[0].temperatureMax));
    });
-   */
 }
 
 function getTemp()
@@ -177,7 +175,11 @@ function deleteAlarm (id) {
 
      }
    });
-   
+}k
+
+function setAlarm(callback, date){
+    var time = date.getTime() - (new Date()).getTime();
+    return setTimeout(callback, time);
 }
 
 function getAllAlarms()
