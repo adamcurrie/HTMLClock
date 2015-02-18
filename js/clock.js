@@ -94,7 +94,6 @@ function hideAlarmPopup()
 
 function insertAlarm(hours, mins, ampm, alarmName, id)
 {
-   console.log(id);
    var time = hours + ":" + mins + ampm;
    var blankDiv = $("<div>").addClass("flexable").attr('id', id + "Delete");
    var deleteDiv = $("<div>").addClass("delete")
@@ -128,7 +127,6 @@ function converToDate(hours, mins, ampm)
 function convertTimeToParams(time)
 {
    var data = new Object();
-   console.log(time);
    data.hours = time.getHours();
    data.mins = padZero(time.getMinutes());
    data.ampm = (time.getHours() >= 12) ? "pm" : "am";
@@ -142,14 +140,13 @@ function addAlarm()
    var mins = $("#mins option:selected").text();
    var ampm = $("#ampm option:selected").text();
    var alarmName = $("#alarmName").val();
-
    var time = converToDate(hours, mins, ampm);
    
    var AlarmObject = Parse.Object.extend("Alarm");
     var alarmObject = new AlarmObject();
-      alarmObject.save({"time": time,"alarmName": alarmName}, {
+      alarmObject.save({"time": time,"alarmName": alarmName, "userid": userid}, {
       success: function(object) {
-        if(!$('#alarms').is(':empty')) 
+        if($('#alarms').html() == 'No Alarms Set') 
         {
           $('#alarms').empty();
         }
@@ -175,18 +172,19 @@ function deleteAlarm (id) {
 
      }
    });
-}k
+}
 
 function setAlarm(callback, date){
     var time = date.getTime() - (new Date()).getTime();
     return setTimeout(callback, time);
 }
 
-function getAllAlarms()
+function getAllAlarms(userid)
 {
    Parse.initialize("VYSgrRNB98UccaOsphztx7SEHEEBOdabwcN9m7Mr", "0sz13Q3sPnk7gYyuoJdFTk00YMyFTf9ehS9CAU5q");
    var AlarmObject = Parse.Object.extend("Alarm");
    var query = new Parse.Query(AlarmObject);
+   query = query.contains('userid', userid);
    query.find({
       success: function(results) {
          for (var i = 0; i < results.length; i++) 
