@@ -162,6 +162,7 @@ function deleteAlarm (id) {
    query.get(id, {
      success: function(myObj) {
        myObj.destroy({});
+       ga('send', 'event', 'Alarm', 'Delete');
        $("#" + id + "Delete").remove();
        if($('#alarms').is(':empty')) 
        {
